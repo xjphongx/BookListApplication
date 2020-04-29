@@ -24,7 +24,7 @@ import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
-
+    lateinit var yearPublished : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +36,18 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this@MainActivity, "Fab is clicked...", Toast.LENGTH_LONG).show()
             createNewActivity()
         }
+
+        //retrieving intent data from BookDetailActivity
+        val yearPublished = intent.getStringExtra("yearPublished")
+        val author = intent.getStringExtra("author")
+        val bookTitle = intent.getStringExtra("bookTitle")
+        val firstSentence = intent.getStringExtra("firstSentence")
+
+        //test to if logcat will print out the results from the second activity
+        println(yearPublished)
+        println(author)
+        println(bookTitle)
+        println(firstSentence)
 
         recycler_view.layoutManager = LinearLayoutManager(this)
         getJsonObject()
@@ -73,8 +85,13 @@ class MainActivity : AppCompatActivity() {
     private fun createNewActivity(){
         val intent = Intent(this, BookDetailActivity::class.java)
         startActivity(intent)
-        println("New activity")
+
+
 
     }
+
+
+
+
 }
 

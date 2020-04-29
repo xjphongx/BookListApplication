@@ -1,5 +1,7 @@
 package edu.fullerton.ecs.cpsc411.restexample
 
+import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -38,17 +40,43 @@ class BookDetailActivity : AppCompatActivity(){
         if(!validateYear() || !validateAuthor() || !validateBookTitle() || !validateFirstSentence()){
             return;//ends
         }
-        //output the results and show it on toast
-        val input = "Year Published: "+ textInputYearPublished.editText?.text.toString() +
-                "\nAuthor: "+ textInputAuthor.editText?.text.toString() +
-                "\nBook Title: "+ textInputBookTitle.editText?.text.toString() +
-                "\nFirst Sentence: "+ textInputFirstSentence.editText?.text.toString()
+        //create string variables to hold the text input results
+        val yearPublished = textInputYearPublished.editText?.text.toString()
+        val author = textInputAuthor.editText?.text.toString()
+        val bookTitle = textInputBookTitle.editText?.text.toString()
+        val firstSentence = textInputFirstSentence.editText?.text.toString()
 
+        //output the results and show it on toast
+        val input = "Year Published: "+ yearPublished +
+                "\nAuthor: "+ author +
+                "\nBook Title: "+ bookTitle +
+                "\nFirst Sentence: "+ firstSentence
         Toast.makeText(this, input, Toast.LENGTH_SHORT).show()
 
+        //once confirmed, passes these string variables into intent object and pass it back to first activity
+        sendToMainActivity(yearPublished, author, bookTitle, firstSentence)
     }
+
+    /*
+        this function will call an intent and send the results back to main activity
+     */
+    private fun sendToMainActivity(yearPublished:String, author:String, bookTitle:String, firstSentence:String){
+        val intent = Intent(this,MainActivity::class.java)
+        intent.putExtra("yearPublished", yearPublished)
+        intent.putExtra("author", author)
+        intent.putExtra("bookTitle", bookTitle) //might have to change this
+        intent.putExtra("firstSentence", firstSentence)
+        startActivity(intent)
+
+    }
+
+
+
+    /*
+        these functions are just used to validate the input text values
+     */
     private fun validateYear(): Boolean {
-         val yearInput = textInputYearPublished.editText?.text.toString()
+        val yearInput = textInputYearPublished.editText?.text.toString()
         return if(yearInput.isEmpty()){
             textInputYearPublished.error = "Field cannot be empty"
             false
